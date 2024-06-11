@@ -1,0 +1,353 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <!-- Основные параметры сайта -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Интерактивная карта Новокузнецка">
+    <meta name="author" content="Новокузнецк">
+    <title>Новокузнецк</title>
+    <!-- Стили -->
+    <link rel="stylesheet" href="bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="ajax/libs/leaflet/0.7.2/leaflet.css">
+    <link rel="stylesheet" href="mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
+    <link rel="stylesheet" href="mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
+    <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+    <link rel="stylesheet" href="assets/leaflet-routing-machine-3.2.5/dist/leaflet-routing-machine.css">
+    <link rel="stylesheet" href="assets/css/stuff.css">
+    <!-- Иконки -->
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon-120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon-152.png">
+    <link rel="icon" sizes="196x196" href="assets/img/favicon-196.png">
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+  </head>
+  <body>
+    <!-- Шапка сайта -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <div class="navbar-icon-container">
+            <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
+            <a href="#" class="navbar-icon pull-right visible-xs" id="sidebar-toggle-btn"><i class="fa fa-search fa-lg white"></i></a>
+          </div>
+          <a class="navbar-brand" href="#" id="full-extent-btn2" style="
+          display: flex; flex-direction: row; gap: 4px; margin-top: -10px;">
+            <img src="assets/img/head-icon.png" style="height: 40px;"/>
+            <div style="display: flex; flex-direction:column;">
+              <p style="margin: 0;  font-size: 20px; line-height: 26px;" >Экстренные службы</p>
+              <p style="margin: 0; font-size: 12px; line-height: 12px;">города Новокузнецк</p>
+            </div>
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group has-feedback">
+              <!-- Строка поиска -->
+              <input id="searchbox" type="text" placeholder="Поиск" class="form-control">
+              <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+            </div>
+          </form>
+          <!-- Список из ссылок -->
+          <ul class="nav navbar-nav">
+            <li class="hidden-xs">
+              <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn">
+                <i class="fa fa-list white"></i>&nbsp;&nbsp;Объекты
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn">
+                <i class="fa fa-question-circle white"></i>&nbsp;&nbsp;О проекте
+              </a>
+            </li>
+            <!-- <li class="dropdown">
+              <a id="histDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-quote-right white"></i>&nbsp;&nbsp;Справка
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="bayer-btn">
+                    <i class="fa fa-dot-circle-o"></i>&nbsp;&nbsp;Эвакуационые пункты
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="tenner-btn">
+                    <i class="fa fa-caret-square-o-up"></i>&nbsp;&nbsp;Пункты полиции
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="shubert-btn">
+                    <i class="fa fa-fire-extinguisher"></i>&nbsp;&nbsp;Пожарные части
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="kaboz-btn">
+                    <i class="fa fa-dot-circle-o"></i>&nbsp;&nbsp;Вековые репера и пункт Кабози
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="savic-btn">
+                    <i class="fa fa-dot-circle-o"></i>&nbsp;&nbsp;Нивелировка Савицкого
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="geinc-btn">
+                    <i class="fa fa-dot-circle-o"></i>&nbsp;&nbsp;Нивелировка Гейнца
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="vitram-btn">
+                    <i class="fa fa-dot-circle-o"></i>&nbsp;&nbsp;Марки Витрама
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="avia-btn">
+                    <i class="fa fa-caret-square-o-up"></i>&nbsp;&nbsp;Триангуляция Аэрохима
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="visot-btn">
+                    <i class="fa fa-caret-square-o-up"></i>&nbsp;&nbsp;Высотные доминанты
+                  </a>
+                </li>
+              </ul>
+            </li> -->
+            <li class="dropdown">
+              <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-globe white"></i>&nbsp;&nbsp;Инструменты
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn">
+                    <i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Оригинальный масштаб
+                  </a>
+                </li>
+                <li class="divider hidden-xs"></li>
+                <li>
+                  <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn">
+                    <i class="fa fa-picture-o"></i>&nbsp;&nbsp;Показать легенду
+                  </a>
+                </li>
+                <!-- Форма авторизации на сайте -->
+                <!--
+                <li class="divider hidden-xs"></li>
+                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn">
+                  <i class="fa fa-user"></i>&nbsp;&nbsp;Войти</a></li>  
+                -->
+              </ul>
+            </li>
+            <!-- <li>
+              <a href="manual.pdf" download="руководство" data-toggle="collapse" data-target=".navbar-collapse.in" id="manual-btn">
+                <i class="fa fa-book white"></i>&nbsp;&nbsp;Руководство
+              </a>
+            </li> -->
+         </ul>
+        </div>
+        <!--/.navbar-collapse -->
+      </div>
+    </div>    
+    <!-- Боковая панель (отображает видимые объекты) с функцией сортировки -->
+    <div id="container">
+      <div id="sidebar" style="display: none;">
+        <div class="sidebar-wrapper">
+          <div class="panel panel-default" id="features">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Объекты на карте
+                <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn">
+                  <i class="fa fa-chevron-left"></i>
+                </button>
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-xs-8 col-md-8">
+                  <input type="text" class="form-control search" placeholder="Поиск">
+                </div>
+                <div class="col-xs-4 col-md-4">
+                  <!-- Сортировка в алфавитном либо по возрастанию и в обратном порядке -->
+                  <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn">
+                    <i class="fa fa-sort"></i>&nbsp;&nbsp;Сортировка
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="sidebar-table">
+              <table class="table table-hover" id="feature-list">
+                <!-- Табличка с объектами в области видимости -->
+                <tbody class="list"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="mapbox-gl-js/plugins/mapbox-gl-directions/v4.2.0/mapbox-gl-directions.js"></script>
+      <link rel="stylesheet" href="mapbox-gl-js/plugins/mapbox-gl-directions/v4.2.0/mapbox-gl-directions.css" type="text/css">
+      <div id="map"></div>
+    </div>
+    <!-- Прогресс загрузки -->
+    <div id="loading">
+      <div class="loading-indicator">
+        <div class="progress progress-striped active">
+          <div class="progress-bar progress-bar-info progress-bar-full"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Окно со справкой -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Интерактивная карта "Экстренные службы города Новокузнецк"</h4>
+          </div>
+          <div class="modal-body">
+            <p>Описание проекта</p>
+            <div class="tab-content" id="aboutTabsContent">
+              <div class="tab-pane fade active in" id="about">
+                <p>
+                  Создано с использованием библиотек
+                  <a href="http://getbootstrap.com/">Bootstrap</a>,
+                  <a href="http://leafletjs.com/" target="_blank">Leaflet</a>.
+                </p>
+                <!-- Таблица со списком особенностей -->
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Особенности</div>
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      Полноэкранный удобный интерфейс с навигационной панелью адаптированный для мобильных устройств.
+                    </li>
+                    <li class="list-group-item">
+                      Подгрузка через jQuery внешние GeoJSON файлы
+                    </li>
+                    <li class="list-group-item">
+                      Многослойная кластеризация маркеров с помощью
+                      <a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank">leaflet плагина</a>
+                    </li>
+                    <li class="list-group-item">
+                      Элегантный поиск с использованием автозаполнения
+                      <a href="http://twitter.github.io/typeahead.js/" target="_blank">typeahead.js</a>
+                    </li>
+                    <li class="list-group-item">
+                      Адаптивная боковая панель, которая включает сортировку и фильтрацию с помощью
+                      <a href="http://listjs.com/" target="_blank">list.js</a>
+                    </li>
+                    <li class="list-group-item">
+                      Значки маркеров, включенные в управление сгруппированным слоем с помощью
+                      <a href="https://github.com/ismyrnow/Leaflet.groupedlayercontrol" target="_blank">grouped layer control plugin</a>
+                    </li>
+                  </ul>
+                </div>
+                  <p>Разработчики интерактивной карты:</p>
+                  <p>Никитин Артем Алексеевич КиГ-2024– студент факультета картографии и геоинформатики Московского государственного университета геодезии и картографии.</p>
+                  <p>Научный руководитель – Котова Ольга Ивановна, доцент кафедры картографии МИИГАиК</p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Закрыть
+            </button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+
+    <!-- Окно с легендой карты -->
+    <div class="modal fade" id="legendModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Легенда карты</h4>
+          </div>
+          <div class="modal-body" style="text-align: center">
+            <p><img width="100%" src="assets/img/legend.png"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Окно свойств объекта -->
+    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title text-primary" id="feature-title"></h4>
+          </div>
+          <div class="modal-body" id="feature-info"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Авторство -->
+    <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">              
+              <a href="https://www./"> </a>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div id="attribution"></div>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    
+    <!-- JS скрипты -->
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
+    <script src="ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+    <script src="ajax/libs/list.js/1.1.1/list.min.js"></script>
+    <script src="ajax/libs/leaflet/0.7.2/leaflet.js"></script>
+    <script src="mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+    <script src="mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
+    <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
+    <!-- <script src="assets/leaflet-routing-machine-3.2.5/dist/leaflet-routing-machine.js"></script>
+    <script src="assets/leaflet-routing-machine-3.2.5/examples/Control.Geocoder.js"></script>
+    <script src="assets/leaflet-routing-machine-3.2.5/examples/config.js"></script>
+    <script src="assets/leaflet-routing-machine-3.2.5/src/localization.js"></script> -->
+    <script src="assets/js/stuff.js"></script>
+  </body>
+</html>
